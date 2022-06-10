@@ -37,7 +37,8 @@ module.exports.handler = async (event, context, callback) =>
     let groupData =
     {
         TableName: "Groups",
-        Item: event.arguments.groupData
+        Item: event.arguments.groupData,
+        ReturnValues: "ALL_OLD"
     };
 
     return await addGroup(groupData);
