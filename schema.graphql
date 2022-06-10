@@ -1,0 +1,82 @@
+type Student {
+	student_id: ID!
+	name: String
+	last_name: String
+}
+
+type Lesson {
+	lesson_id: ID!
+	name: String
+	instructor_id: ID!
+}
+
+type Book {
+	book_id: ID!
+	title: String!
+}
+
+type Group {
+	group_id: ID!
+	name: String!
+	students: [Student]
+}
+
+type Mutation {
+	addBook(bookData: addBookInput!): String
+	updateBook(bookData: updateBookInput!): String!
+	deleteBook(book_id: ID!): String
+	addStudent(studentData: addStudentInput!): AWSJSON
+	addGroup(groupData: addGroupInput!): AWSJSON
+	initLesson(lessonData: lessonDataInput): AWSJSON
+	registerStudentAtGroup(studentData: registerStudentAtGroupInput): AWSJSON
+}
+
+type Subscription {
+	onRegisterStudentAtGroup: AWSJSON @aws_subscribe(mutations: ["registerStudentAtGroup"])
+}
+
+type Query {
+	getBook(ID: ID!): Book!
+	getBooks: [Book]
+	getGroups: [Group]
+	getStudents: [Student]
+}
+
+type Response {
+	statusCode: Int
+	message: String
+}
+
+
+
+input updateBookInput {
+	ID: ID!
+	title: String!
+}
+
+input addStudentInput {
+	student_id: ID!
+	name: String
+	last_name: String
+}
+
+input addGroupInput {
+	group_id: ID!
+	name: String!
+	students: [AWSJSON]
+}
+
+input addBookInput {
+	book_id: ID!
+	title: String!
+}
+
+input lessonDataInput {
+	instructor_id: ID!
+	group_id: ID!
+}
+
+input registerStudentAtGroupInput {
+	group_id: ID!
+	students: [addStudentInput]
+}
